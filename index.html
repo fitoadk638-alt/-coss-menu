@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080a12">
+<title>COSS | Premium Menu</title>
+
+<style>
+:root {
+ --green:#20d978;
+ --bg:#080a12;
+ --panel:#10131e;
+ --muted:#929caf;
+ --border:rgba(255,255,255,.09);
+}
+
+*{box-sizing:border-box}
+
+body {
+ margin:0;
+ background:var(--bg);
+ color:#eef2fa;
+ font-family:system-ui,-apple-system,Arial,sans-serif;
+}
+
+.topbar {
+ height:88px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#0c1017;
+ border-bottom:1px solid var(--border);
+ position:relative;
+}
+
+.handle {
+ position:absolute;
+ top:12px;
+ width:64px;
+ height:6px;
+ border-radius:20px;
+ background:#b5bbc9;
+}
+
+.topbar h1 {
+ margin:16px 0 0;
+ font-size:26px;
+ font-weight:600;
+ font-family:Georgia,serif;
+ font-style:italic;
+}
+
+main {
+ width:100%;
+ max-width:850px;
+ margin:auto;
+ padding:16px 16px 35px;
+}
+
+.hero {
+ min-height:360px;
+ position:relative;
+ overflow:hidden;
+ display:flex;
+ flex-direction:column;
+ justify-content:space-between;
+ padding:20px;
+ border-radius:43px;
+ border:1px solid rgba(145,135,255,.35);
+ background:
+ radial-gradient(ellipse at 75% 15%,#302071 0%,transparent 55%),
+ radial-gradient(ellipse at 15% 60%,#143b38 0%,transparent 55%),
+ linear-gradient(145deg,#17153f,#080a17 75%);
+ box-shadow:0 10px 40px #0008;
+}
+
+.hero:before {
+ content:"";
+ position:absolute;
+ inset:0;
+ background-image:
+ linear-gradient(to top,#050711 0%,transparent 75%);
+ pointer-events:none;
+}
+
+.hero-content {
+ position:relative;
+ z-index:1;
+}
+
+.premium {
+ display:inline-flex;
+ padding:11px 17px;
+ border:1px solid #7776aa66;
+ background:#080b1b99;
+ border-radius:30px;
+ font-size:13px;
+ font-weight:800;
+ letter-spacing:2px;
+}
+
+.hero-bottom {
+ position:relative;
+ z-index:1;
+}
+
+.hero-bottom h2 {
+ font-size:40px;
+ margin:0 0 7px;
+ font-weight:850;
+}
+
+.hero-bottom p {
+ margin:0;
+ color:#c5cbd9;
+ font-size:16px;
+ line-height:1.6;
+}
+
+.search-wrap {
+ display:flex;
+ align-items:center;
+ gap:12px;
+ margin:22px 0;
+ padding:0 16px;
+ height:82px;
+ border:1px solid var(--border);
+ border-radius:27px;
+ background:#151721cc;
+}
+
+.search-icon {
+ color:#8390a5;
+ font-size:24px;
+}
+
+#search {
+ flex:1;
+ min-width:0;
+ border:0;
+ outline:0;
+ background:transparent;
+ color:white;
+ font-size:18px;
+}
+
+#search::placeholder{color:#8993a6}
+
+.clear {
+ width:40px;
+ height:40px;
+ border:0;
+ border-radius:50%;
+ background:#292d39;
+ color:#cbd2e0;
+ font-size:20px;
+ cursor:pointer;
+}
+
+.tabs {
+ display:flex;
+ gap:9px;
+ overflow-x:auto;
+ padding:3px 0 12px;
+ scrollbar-width:none;
+}
+
+.tabs::-webkit-scrollbar{display:none}
+
+.tab {
+ flex-shrink:0;
+ display:flex;
+ align-items:center;
+ gap:9px;
+ padding:14px 20px;
+ border:1px solid var(--border);
+ border-radius:35px;
+ background:#11141d;
+ color:#a7b0c2;
+ font-size:15px;
+ font-weight:750;
+ cursor:pointer;
+}
+
+.tab.active {
+ color:white;
+ background:#10281d;
+ border:2px solid var(--green);
+ box-shadow:0 0 15px #20d97835;
+}
+
+.tab.active .tab-icon{color:var(--green)}
+
+.section-head {
+ display:flex;
+ align-items:center;
+ gap:17px;
+ margin:18px 3px 16px;
+}
+
+.section-icon {
+ width:92px;
+ height:92px;
+ display:grid;
+ place-items:center;
+ flex-shrink:0;
+ border:1px solid var(--border);
+ border-radius:27px;
+ background:linear-gradient(145deg,#19241f,#10121b);
+ color:var(--green);
+ font-size:35px;
+}
+
+.section-info{flex:1;min-width:0}
+
+.section-info h2 {
+ margin:0 0 5px;
+ font-size:30px;
+}
+
+.section-info p {
+ margin:0;
+ color:var(--muted);
+ font-size:14px;
+}
+
+.counter {
+ min-width:44px;
+ height:44px;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--green);
+ border-radius:15px;
+ background:#123421;
+ color:var(--green);
+ font-weight:800;
+}
+
+.progress {
+ height:3px;
+ background:#242633;
+ border-radius:10px;
+ margin:0 3px 20px;
+}
+
+.progress span {
+ display:block;
+ height:100%;
+ width:15%;
+ background:var(--green);
+ border-radius:10px;
+ transition:width .2s;
+}
+
+.command-grid {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+}
+
+.command {
+ min-width:0;
+ padding:16px 13px;
+ border:1px solid #27303d;
+ border-radius:20px;
+ background:linear-gradient(120deg,#14251f,#101421 75%);
+ cursor:pointer;
+ transition:.18s;
+}
+
+.command:active{transform:scale(.97)}
+
+.command-top {
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.dot {
+ width:9px;
+ height:9px;
+ flex-shrink:0;
+ border-radius:50%;
+ background:var(--green);
+ box-shadow:0 0 10px #20d97880;
+}
+
+.command strong {
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+ font-size:15px;
+}
+
+.arrow {
+ margin-left:auto;
+ color:#8290a5;
+ font-size:19px;
+}
+
+.details {
+ display:none;
+ margin-top:13px;
+ padding-top:12px;
+ border-top:1px solid var(--border);
+ color:#aeb9c9;
+ font-size:13px;
+ line-height:1.6;
+}
+
+.command.open .details{display:block}
+
+.empty {
+ padding:40px 10px;
+ text-align:center;
+ color:var(--muted);
+ grid-column:1/-1;
+}
+
+footer {
+ padding:25px;
+ text-align:center;
+ color:#657080;
+ font-size:11px;
+ letter-spacing:1px;
+}
+
+@media(min-width:650px) {
+ .hero{min-height:440px}
+ .hero-bottom h2{font-size:48px}
+ main{padding-top:22px}
+}
+
+@media(max-width:380px) {
+ main{padding:12px}
+ .hero{min-height:320px;border-radius:30px}
+ .tab{padding:12px 15px;font-size:13px}
+ .command{padding:14px 9px}
+ .command strong{font-size:13px}
+ .section-info h2{font-size:25px}
+ .section-icon{width:72px;height:72px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+ <div class="handle"></div>
+ <h1>🎛️ Menú</h1>
+</div>
+
+<main>
+
+ <section class="hero">
+  <div class="hero-content">
+   <span class="premium">✧ MENÚ INTERACTIVO</span>
+  </div>
+
+  <div class="hero-bottom">
+   <h2>COSS</h2>
+   <p>Toda la gloria del mundo cabe en un grano de arena</p>
+  </div>
+ </section>
+
+ <div class="search-wrap">
+  <span class="search-icon">⌕</span>
+  <input id="search" placeholder="Buscar comando..." autocomplete="off">
+  <button class="clear" id="clear" aria-label="Limpiar búsqueda">×</button>
+ </div>
+
+ <nav class="tabs" id="tabs"></nav>
+
+ <section class="section-head">
+  <div class="section-icon" id="sectionIcon">♙</div>
+  <div class="section-info">
+   <h2 id="sectionTitle">Subbots</h2>
+   <p id="sectionDescription">Vinculación y ajustes del bot</p>
+  </div>
+  <div class="counter" id="counter">0</div>
+ </section>
+
+ <div class="progress"><span id="progress"></span></div>
+
+ <div class="command-grid" id="commands"></div>
+
+</main>
+
+<footer>CORDINALWA · DESARROLLADO POR ADK</footer>
+
+<script>
+const secciones = {
+ subbots: {
+  nombre:"Subbots",
+  icono:"♙",
+  descripcion:"Vinculación y ajustes del bot",
+  categorias:{
+   VINCULACIÓN:[
+    ["code","Vincula una sesión de subbot"],
+    ["setprimary","Establece el bot principal"],
+    ["setprefix","Cambia el prefijo"],
+    ["setname","Cambia el nombre del bot"],
+    ["bot","Configura el estado del bot"],
+    ["public","Activa el modo público"],
+    ["info","Información del bot"],
+    ["menu","Muestra el menú"]
+   ],
+   CONFIGURACIÓN:[
+    ["ping","Comprueba la conexión"]
+   ]
+  }
+ },
+ grupo: {
+  nombre:"Grupo",
+  icono:"♧",
+  descripcion:"Administración y herramientas de grupo",
+  categorias:{
+   GENERAL:[
+    ["bienvenida","Configura los mensajes de bienvenida"],
+    ["add","Añade participantes"],
+    ["ret","Retira participantes"],
+    ["del","Elimina mensajes"]
+   ]
+  }
+ },
+ admin: {
+  nombre:"Admin",
+  icono:"♢",
+  descripcion:"Herramientas de administración",
+  categorias:{
+   ADMINISTRACIÓN:[
+    ["bot","Control del funcionamiento"],
+    ["setname","Configura el nombre"],
+    ["setimage","Configura la imagen"],
+    ["prefijo","Cambia el prefijo"]
+   ]
+  }
+ },
+ descargas: {
+  nombre:"Descargas",
+  icono:"↓",
+  descripcion:"Herramientas multimedia",
+  categorias:{
+   MULTIMEDIA:[
+    ["play","Busca contenido multimedia"],
+    ["play2","Descarga contenido multimedia"],
+    ["mp3","Convierte contenido a audio"],
+    ["pin","Descarga contenido de Pinterest"],
+    ["ig","Descarga contenido de Instagram"],
+    ["x","Descarga contenido de X"],
+    ["sticker","Crea stickers"],
+    ["toimg","Convierte stickers en imágenes"]
+   ]
+  }
+ }
+};
+
+const menuTabs = [
+ ["subbots","♙","Subbots"],
+ ["grupo","♧","Grupo"],
+ ["admin","♢","Admin"],
+ ["descargas","↓","Descargas"]
+];
+
+let actual="subbots";
+
+const tabs=document.getElementById("tabs");
+const commands=document.getElementById("commands");
+const search=document.getElementById("search");
+
+function crearTabs(){
+ tabs.innerHTML="";
+ menuTabs.forEach(([id,icon,nombre])=>{
+  const button=document.createElement("button");
+  button.className="tab"+(actual===id?" active":"");
+  button.innerHTML=`<span class="tab-icon">${icon}</span>${nombre}`;
+  button.onclick=()=>{
+   actual=id;
+   render();
+  };
+  tabs.appendChild(button);
+ });
+}
+
+function render(){
+ const seccion=secciones[actual];
+ const filtro=search.value.trim().toLowerCase();
+
+ document.getElementById("sectionTitle").textContent=seccion.nombre;
+ document.getElementById("sectionIcon").textContent=seccion.icono;
+ document.getElementById("sectionDescription").textContent=seccion.descripcion;
+
+ commands.innerHTML="";
+ crearTabs();
+
+ let total=0;
+
+ Object.entries(seccion.categorias).forEach(([categoria,lista])=>{
+  const encontrados=lista.filter(([nombre,descripcion])=>
+   (nombre+" "+descripcion+" "+categoria).toLowerCase().includes(filtro)
+  );
+
+  if(!encontrados.length)return;
+
+  total+=encontrados.length;
+
+  encontrados.forEach(([nombre,descripcion])=>{
+   const card=document.createElement("article");
+   card.className="command";
+
+   const top=document.createElement("div");
+   top.className="command-top";
+
+   const dot=document.createElement("span");
+   dot.className="dot";
+
+   const name=document.createElement("strong");
+   name.textContent="."+nombre;
+
+   const arrow=document.createElement("span");
+   arrow.className="arrow";
+   arrow.textContent="›";
+
+   top.append(dot,name,arrow);
+
+   const detail=document.createElement("div");
+   detail.className="details";
+   detail.textContent=categoria+" · "+descripcion;
+
+   card.append(top,detail);
+
+   card.onclick=()=>card.classList.toggle("open");
+
+   commands.appendChild(card);
+  });
+ });
+
+ document.getElementById("counter").textContent=total;
+ document.getElementById("progress").style.width=
+  (total/Math.max(1,Object.values(seccion.categorias).flat().length)*100)+"%";
+
+ if(!total){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="No se encontraron comandos";
+  commands.appendChild(empty);
+ }
+}
+
+search.addEventListener("input",render);
+
+document.getElementById("clear").onclick=()=>{
+ search.value="";
+ render();
+ search.focus();
+};
+
+render();
+</script>
+
+</body>
+</html>
